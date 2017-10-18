@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+    <color name="bg_app_base">#12b7f5</color>
+    <color name="color_loading">#12b7f5</color>
+    <color name="thumbColor">#66aaaaaa</color>
+    <color name="common_pressed">#F0F0F0</color>  <!--白色背景按下去的颜色-->
+    <color name="badgeColor">#fc5d7b</color><!--BottomBarLayout 红点颜色-->
+    <color name="defaultColor">#9197a3</color><!--BottomBarLayout 默认颜色-->
+    <color name="defaultSelectedColor">#03A9F4</color><!--BottomBarLayout 默认选择颜色-->
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ico_loading_red"
+    android:fromDegrees="0.0"
+    android:pivotX="50.0%"
+    android:pivotY="50.0%"
+    android:toDegrees="360.0" />
+    <!--fromDegrees : 设置动画开始时的角度--><!--toDegrees：设置动画结束时的旋转角度--><!--pivotX : 设置动画相对于控件的 x 坐标的位置--><!--pivotY : 设置动画相对于控件的 y 坐标的位置-->
