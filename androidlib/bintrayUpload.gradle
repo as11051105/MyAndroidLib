@@ -1,0 +1,113 @@
+apply plugin: 'com.android.library'
+
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+def siteUrl = 'https://github.com/as11051105/MyAndroidLib'      // 项目的主页
+def gitUrl = 'https://github.com/as11051105/MyAndroidLib.git'   // Git仓库的url
+
+//发布到组织名称名字，必须填写
+group = "as1105"
+//发布到JCenter上的项目名字，必须填写
+def libName = "androidlib"
+// 版本号，下次更新是只需要更改版本号即可
+version = "1.0.0"
+/**  上面配置后上传至jcenter后的编译路径是这样的： compile 'cn.zxyi:androidlib:1.0.0'  **/
+
+
+
+
+allprojects {
+    repositories {
+        maven { url 'https://zxyi.bintray.com/androidlib' }
+    }
+}
+
+//生成源文件
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+//生成文档
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+//文档打包成jar
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+
+// 配置maven库，生成POM.xml文件
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                // Add your description here
+                name 'multi-format 1D/2D barcode image processing use zxing.'
+                url siteUrl
+                // Set your license
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'zxy'     //填写的一些基本信息
+                        name 'as1105'
+                        email 'as11051105@hotmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+//上传到jcenter
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        repo = "as1105"
+        name = "androidlib"   //发布到JCenter上的项目名字
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}
+javadoc { //jav doc采用utf-8编码否则会报“GBK的不可映射字符”错误
+    options{
+        encoding "UTF-8"
+        charSet 'UTF-8'
+    }
+}
+
+android {
+    lintOptions {
+        abortOnError false
+    }
+}
+
+

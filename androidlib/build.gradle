@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
+//apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 25
@@ -55,27 +55,29 @@ dependencies {
     compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'//Glide Transformations,and use the GPU Filters
 }
 
-allprojects {
-    repositories {
-        jcenter()
-    }
-    //加上这些
-    tasks.withType(Javadoc) {
-        options{ encoding "UTF-8"
-            charSet 'UTF-8'
-            links "http://docs.oracle.com/javase/7/docs/api"
-        }
-    }
-}
+apply from: "bintrayUpload.gradle"
 
-publish {
-    userOrg = 'as1105'      //bintray注册的用户名
-    groupId = 'com.zxy'         //compile引用时的第1部分groupId
-    artifactId = 'androidlib'     //compile引用时的第2部分项目名
-    repoName='maven'
-    publishVersion = '1.0.0'    //compile引用时的第3部分版本号
-    desc = 'This is a androidlib'
-    website = 'https://github.com/as11051105/MyAndroidLib'
-}
+//allprojects {
+//    repositories {
+//        jcenter()
+//    }
+//    //加上这些
+//    tasks.withType(Javadoc) {
+//        options{ encoding "UTF-8"
+//            charSet 'UTF-8'
+//            links "http://docs.oracle.com/javase/7/docs/api"
+//        }
+//    }
+//}
+//
+//publish {
+//    userOrg = 'as1105'      //bintray注册的用户名
+//    groupId = 'com.zxy'         //compile引用时的第1部分groupId
+//    artifactId = 'androidlib'     //compile引用时的第2部分项目名
+//    repoName='maven'
+//    publishVersion = '1.0.0'    //compile引用时的第3部分版本号
+//    desc = 'This is a androidlib'
+//    website = 'https://github.com/as11051105/MyAndroidLib'
+//}
 
 //gradlew clean build bintrayUpload -PbintrayUser=as1105 -PbintrayKey=ecbed013f61fc4f2b54837fd64b4f038a02a9a06 -PdryRun=false
