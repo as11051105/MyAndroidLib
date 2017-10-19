@@ -4,7 +4,6 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 25
     buildToolsVersion '25.0.3'
-    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 23
@@ -55,7 +54,7 @@ dependencies {
     compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'//Glide Transformations,and use the GPU Filters
 }
 
-apply from: "bintrayUpload.gradle"
+
 
 //allprojects {
 //    repositories {
@@ -81,3 +80,5 @@ apply from: "bintrayUpload.gradle"
 //}
 
 //gradlew clean build bintrayUpload -PbintrayUser=as1105 -PbintrayKey=ecbed013f61fc4f2b54837fd64b4f038a02a9a06 -PdryRun=false
+
+apply from: "bintrayUpload.gradle"
