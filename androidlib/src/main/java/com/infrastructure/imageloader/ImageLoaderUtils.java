@@ -17,7 +17,25 @@ import com.bumptech.glide.request.RequestOptions;
  * Description : 图片加载工具类 使用glide框架封装
  */
 public class ImageLoaderUtils {
-
+    /**
+     * 加载原图片
+     *
+     * @param context
+     * @param url
+     * @param target
+     */
+    public static void loadImg(Context context, String url, ImageView target) {
+        Glide.with(context)
+                .load(url)
+                .apply(new RequestOptions()
+                        .format(DecodeFormat.PREFER_ARGB_8888)
+                        .centerCrop()//图片显示类型
+                        .priority(Priority.HIGH)//设置请求优先级
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)//全部缓存
+                )
+                .transition(new DrawableTransitionOptions().crossFade(1000))//渐显效果
+                .into(target);
+    }
     /**
      * 加载原图片
      *
@@ -112,7 +130,27 @@ public class ImageLoaderUtils {
                 .transition(new DrawableTransitionOptions().crossFade(1000))//渐显效果
                 .into(target);
     }
-
+    /**
+     * 加载圆形头像
+     *
+     * @param context 如果是activity glide会与其生命周期关联,在onStop()中取消加载图片,如果
+     *                想要始终加载图片则需要传入Application实例
+     * @param url
+     * @param target
+     */
+    public static void loadRoundImg(Context context, String url, ImageView target) {
+        Glide.with(context)
+                .load(url)
+                .apply(new RequestOptions()
+                        .format(DecodeFormat.PREFER_ARGB_8888)
+                        .centerCrop()//图片显示类型
+                        .priority(Priority.HIGH)//设置请求优先级
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)//全部缓存
+                        .circleCrop()//设置成圆形头像<这个是V4.0新增的>
+                )
+                .transition(new DrawableTransitionOptions().crossFade(1000))//渐显效果
+                .into(target);
+    }
     /**
      * 加载圆形头像
      *
