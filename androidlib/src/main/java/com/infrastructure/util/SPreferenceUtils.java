@@ -1,7 +1,6 @@
 package com.infrastructure.util;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import java.util.Map;
 
@@ -13,10 +12,10 @@ import java.util.Map;
  *     desc  : SP相关工具类
  * </pre>
  */
-public class SPUtils {
+public class SPreferenceUtils {
 
-    private SharedPreferences        sp;
-    private SharedPreferences.Editor editor;
+    private SPreferenceSecurity sp;
+    private SPreferenceSecurity.Editor editor;
 
     /**
      * SPUtils构造函数
@@ -25,8 +24,8 @@ public class SPUtils {
      * @param context 上下文
      * @param spName  spName
      */
-    public SPUtils(Context context, String spName) {
-        sp = context.getSharedPreferences(spName, Context.MODE_PRIVATE);
+    public SPreferenceUtils(Context context, String spName) {
+        sp = new SPreferenceSecurity(context,spName, Context.MODE_PRIVATE);
         editor = sp.edit();
         editor.apply();
     }
@@ -220,4 +219,5 @@ public class SPUtils {
     public void clear() {
         editor.clear().apply();
     }
+
 }

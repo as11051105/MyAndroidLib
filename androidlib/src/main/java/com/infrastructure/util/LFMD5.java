@@ -1,8 +1,8 @@
 package com.infrastructure.util;
 
-import java.security.MessageDigest;
-
 import android.annotation.SuppressLint;
+
+import java.security.MessageDigest;
 
 /**
  * 类名: MD5.java

@@ -19,7 +19,6 @@ import java.util.Locale;
 
 /**
  * <pre>
- *     author: Blankj
  *     blog  : http://blankj.com
  *     time  : 16/11/13
  *     desc  : 定位相关工具类
@@ -80,7 +79,9 @@ public class LocationUtils {
      * @return {@code true}: 初始化成功<br>{@code false}: 初始化失败
      */
     public static boolean register(Context context, long minTime, long minDistance, OnLocationChangeListener listener) {
-        if (listener == null) return false;
+        if (listener == null) {
+            return false;
+        }
         mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         mListener = listener;
         if (!isLocationEnabled(context)) {
@@ -89,8 +90,12 @@ public class LocationUtils {
         }
         String provider = mLocationManager.getBestProvider(getCriteria(), true);
         Location location = mLocationManager.getLastKnownLocation(provider);
-        if (location != null) listener.getLastKnownLocation(location);
-        if (myLocationListener == null) myLocationListener = new MyLocationListener();
+        if (location != null) {
+            listener.getLastKnownLocation(location);
+        }
+        if (myLocationListener == null){
+            myLocationListener = new MyLocationListener();
+        }
         mLocationManager.requestLocationUpdates(provider, minTime, minDistance, myLocationListener);
         return true;
     }
@@ -143,7 +148,9 @@ public class LocationUtils {
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         try {
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
-            if (addresses.size() > 0) return addresses.get(0);
+            if (addresses.size() > 0) {
+                return addresses.get(0);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

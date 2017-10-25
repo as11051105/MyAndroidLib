@@ -12,7 +12,6 @@ import java.util.Set;
 
 /**
  * <pre>
- *     author: Blankj
  *     blog  : http://blankj.com
  *     time  : 2016/8/2
  *     desc  : 服务相关工具类
@@ -34,7 +33,9 @@ public class ServiceUtils {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<RunningServiceInfo> infos = activityManager.getRunningServices(0x7FFFFFFF);
         Set<String> names = new HashSet<>();
-        if (infos == null || infos.size() == 0) return null;
+        if (infos == null || infos.size() == 0){
+            return null;
+        }
         for (RunningServiceInfo info : infos) {
             names.add(info.service.getClassName());
         }
@@ -159,9 +160,13 @@ public class ServiceUtils {
     public static boolean isServiceRunning(Context context, String className) {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<RunningServiceInfo> infos = activityManager.getRunningServices(0x7FFFFFFF);
-        if (infos == null || infos.size() == 0) return false;
+        if (infos == null || infos.size() == 0) {
+            return false;
+        }
         for (RunningServiceInfo info : infos) {
-            if (className.equals(info.service.getClassName())) return true;
+            if (className.equals(info.service.getClassName())) {
+                return true;
+            }
         }
         return false;
     }

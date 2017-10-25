@@ -17,14 +17,12 @@ import java.util.Locale;
 
 /**
  * <pre>
- *     author: Blankj
  *     blog  : http://blankj.com
  *     time  : 2016/9/27
  *     desc  : 崩溃相关工具类
  * </pre>
  */
-public class CrashUtils
-        implements UncaughtExceptionHandler {
+public class CrashUtils implements UncaughtExceptionHandler {
 
     private volatile static CrashUtils mInstance;
 
@@ -60,10 +58,12 @@ public class CrashUtils
      * @param context 上下文
      * @return {@code true}: 成功<br>{@code false}: 失败
      */
-    public boolean init(Context context) {
-        if (mInitialized) return true;
+    public boolean init(Context context, File dirPath) {
+        if (mInitialized) {
+            return true;
+        }
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            crashDir = context.getExternalCacheDir().getPath() + File.separator + "crash" + File.separator;
+            crashDir =dirPath.getAbsolutePath()+ File.separator;
         } else {
             crashDir = context.getCacheDir().getPath() + File.separator + "crash" + File.separator;
         }
@@ -84,7 +84,9 @@ public class CrashUtils
     public void uncaughtException(Thread thread, final Throwable throwable) {
         String now = new SimpleDateFormat("yy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
         final String fullPath = crashDir + now + ".txt";
-        if (!FileUtils.createOrExistsFile(fullPath)) return;
+        if (!FileUtils.createOrExistsFile(fullPath)) {
+            return;
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {

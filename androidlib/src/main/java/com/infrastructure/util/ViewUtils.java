@@ -76,8 +76,8 @@ public class ViewUtils {
      */
     public static int getAbsListViewHeight(AbsListView absListView, int lineNumber, int verticalSpace) {
         int totalHeight = 0;
-        int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        int w = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+        int h = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
         absListView.measure(w, h);
         ListAdapter mListAdapter = absListView.getAdapter();
         if (mListAdapter == null) {
@@ -342,8 +342,8 @@ public class ViewUtils {
         }
 
         // Margin
-        if (view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-            ViewGroup.MarginLayoutParams mMarginLayoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+        if (view.getLayoutParams() instanceof MarginLayoutParams) {
+            MarginLayoutParams mMarginLayoutParams = (MarginLayoutParams) view.getLayoutParams();
             if (mMarginLayoutParams != null) {
                 setMargin(view, mMarginLayoutParams.leftMargin, mMarginLayoutParams.topMargin, mMarginLayoutParams.rightMargin, mMarginLayoutParams.bottomMargin);
             }
@@ -362,13 +362,13 @@ public class ViewUtils {
      * 描述：是否需要Scale.
      */
     public static boolean isNeedScale(View view) {
-        // if(view instanceof PullToRefreshView) {
-        // return false;
-        // }
-        //
-        // if(view instanceof PullMultiColumnListView) {
-        // return false;
-        // }
+//         if(view instanceof PullToRefreshView) {
+//         return false;
+//         }
+//
+//         if(view instanceof PullMultiColumnListView) {
+//         return false;
+//         }
         return true;
     }
 
@@ -468,8 +468,8 @@ public class ViewUtils {
         int scaledRight = scaleValue(view.getContext(), right);
         int scaledBottom = scaleValue(view.getContext(), bottom);
 
-        if (view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-            ViewGroup.MarginLayoutParams mMarginLayoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+        if (view.getLayoutParams() instanceof MarginLayoutParams) {
+            MarginLayoutParams mMarginLayoutParams = (MarginLayoutParams) view.getLayoutParams();
             if (mMarginLayoutParams != null) {
                 if (left != INVALID) {
                     mMarginLayoutParams.leftMargin = scaledLeft;
@@ -509,18 +509,6 @@ public class ViewUtils {
 
     }
 
-    /**
-     * @param @param  context
-     * @param @param  dpValue
-     * @param @return 设定文件
-     * @return int 返回类型
-     * @Title: dip2px
-     * @Description: TODO(dp转px)
-     */
-    public static int dip2pxs(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
-    }
 
     /**
      * 设置View的高度

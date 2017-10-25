@@ -12,13 +12,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import static com.infrastructure.util.ConstUtils.DAY;
-import static com.infrastructure.util.ConstUtils.HOUR;
-import static com.infrastructure.util.ConstUtils.MIN;
-import static com.infrastructure.util.ConstUtils.MSEC;
-import static com.infrastructure.util.ConstUtils.SEC;
-import static com.infrastructure.util.ConstUtils.TimeUnit;
-
 /**
  * 类名: TimeUtils.java
  * <p>
@@ -191,6 +184,83 @@ public class TimeUtils {
      * </pre>
      * 注意SimpleDateFormat不是线程安全的
      */
+
+    /**
+     * 时间日期格式化到年月日时分秒.
+     */
+    public static final String dateFormatYMDHMS = "yyyy-MM-dd HH:mm:ss";
+
+    /**
+     * 时间日期格式化到年月日.
+     */
+    public static final String dateFormatYMD = "yyyy-MM-dd";
+
+    /**
+     * 时间日期格式化到年月.
+     */
+    public static final String dateFormatYM = "yyyy-MM";
+
+    /**
+     * 时间日期格式化到年月日时分.
+     */
+    public static final String dateFormatYMDHM = "yyyy-MM-dd HH:mm";
+
+    /**
+     * 时间日期格式化到月日.
+     */
+    public static final String dateFormatMD = "MM/dd";
+
+    /**
+     * 时分秒.
+     */
+    public static final String dateFormatHMS = "HH:mm:ss";
+
+    /**
+     * 时分.
+     */
+    public static final String dateFormatHM = "HH:mm";
+
+    /**
+     * 上午.
+     */
+    public static final String AM = "AM";
+
+    /**
+     * 下午.
+     */
+    public static final String PM = "PM";
+
+
+    /******************** 时间相关常量 ********************/
+    /**
+     * 毫秒与毫秒的倍数
+     */
+    public static final int MSEC = 1;
+    /**
+     * 秒与毫秒的倍数
+     */
+    public static final int SEC  = 1000;
+    /**
+     * 分与毫秒的倍数
+     */
+    public static final int MIN  = 60000;
+    /**
+     * 时与毫秒的倍数
+     */
+    public static final int HOUR = 3600000;
+    /**
+     * 天与毫秒的倍数
+     */
+    public static final int DAY  = 86400000;
+
+    public enum TimeUnit {
+        MSEC,
+        SEC,
+        MIN,
+        HOUR,
+        DAY
+    }
+    
     public static final SimpleDateFormat DEFAULT_SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
 
@@ -572,18 +642,20 @@ public class TimeUtils {
     public static String getFriendlyTimeSpanByNow(long millis) {
         long now = System.currentTimeMillis();
         long span = now - millis;
-        if (span < 0) return String.format("%tc", new Date(millis));
+        if (span < 0) {
+            return String.format("%tc", new Date(millis));
+        }
         // 获取当天00:00
-        long wee = (now / ConstUtils.DAY) * ConstUtils.DAY;
+        long wee = (now / DAY) * DAY;
         if (span < 1000) {
             return "刚刚";
-        } else if (span < ConstUtils.MIN) {
-            return String.format("%d秒前", span / ConstUtils.SEC);
-        } else if (span < ConstUtils.HOUR) {
-            return String.format("%d分钟前", span / ConstUtils.MIN);
+        } else if (span < MIN) {
+            return String.format("%d秒前", span / SEC);
+        } else if (span < HOUR) {
+            return String.format("%d分钟前", span / MIN);
         } else if (millis >= wee) {
             return String.format("今天%tR", new Date(millis));
-        } else if (millis >= wee - ConstUtils.DAY) {
+        } else if (millis >= wee - DAY) {
             return String.format("昨天%tR", new Date(millis));
         } else {
             return String.format("%tF", new Date(millis));
@@ -740,50 +812,7 @@ public class TimeUtils {
         return cal.get(Calendar.WEEK_OF_YEAR);
     }
 
-    /**
-     * 时间日期格式化到年月日时分秒.
-     */
-    public static final String dateFormatYMDHMS = "yyyy-MM-dd HH:mm:ss";
 
-    /**
-     * 时间日期格式化到年月日.
-     */
-    public static final String dateFormatYMD = "yyyy-MM-dd";
-
-    /**
-     * 时间日期格式化到年月.
-     */
-    public static final String dateFormatYM = "yyyy-MM";
-
-    /**
-     * 时间日期格式化到年月日时分.
-     */
-    public static final String dateFormatYMDHM = "yyyy-MM-dd HH:mm";
-
-    /**
-     * 时间日期格式化到月日.
-     */
-    public static final String dateFormatMD = "MM/dd";
-
-    /**
-     * 时分秒.
-     */
-    public static final String dateFormatHMS = "HH:mm:ss";
-
-    /**
-     * 时分.
-     */
-    public static final String dateFormatHM = "HH:mm";
-
-    /**
-     * 上午.
-     */
-    public static final String AM = "AM";
-
-    /**
-     * 下午.
-     */
-    public static final String PM = "PM";
 
     /**
      * 描述：String类型的日期时间转化为Date类型.
@@ -1486,8 +1515,9 @@ public class TimeUtils {
         int hour = 0;
         int minute = 0;
         int second = 0;
-        if (time <= 0)
+        if (time <= 0) {
             return "00:00";
+        }
         else {
             minute = time / 60;
             if (minute < 60) {
@@ -1495,8 +1525,9 @@ public class TimeUtils {
                 timeStr = unitFormat(minute) + ":" + unitFormat(second);
             } else {
                 hour = minute / 60;
-                if (hour > 99)
+                if (hour > 99) {
                     return "99:59:59";
+                }
                 minute = minute % 60;
                 second = time - hour * 3600 - minute * 60;
                 timeStr = unitFormat(hour) + ":" + unitFormat(minute) + ":" + unitFormat(second);
@@ -1507,11 +1538,78 @@ public class TimeUtils {
 
     public static String unitFormat(int i) {
         String retStr = null;
-        if (i >= 0 && i < 10)
+        if (i >= 0 && i < 10) {
             retStr = "0" + Integer.toString(i);
-        else
+        }
+        else {
             retStr = "" + i;
+        }
         return retStr;
     }
 
+    /**
+     * 毫秒时间戳转合适时间长度
+     *
+     * @param millis 毫秒时间戳
+     * @return 合适时间长度
+     */
+    @SuppressLint("DefaultLocale")
+    public static String millis2FitTimeSpan(long millis) {
+        if (millis < 0) {
+            return "shouldn't be less than zero!";
+        } else if (millis < SEC) {
+            return String.format("%d毫秒", millis);
+        } else if (millis < MIN) {
+            return String.format("%d秒", millis / SEC);
+        } else if (millis < HOUR) {
+            return String.format("%d分", millis / MIN);
+        } else if (millis < DAY) {
+            return String.format("%d小时", millis / HOUR);
+        } else {
+            return String.format("%d天", millis / DAY);
+        }
+    }
+    /**
+     * 描述：标准化日期时间类型的数据，不足两位的补0.
+     *
+     * @param dateTime 预格式的时间字符串，如:2012-3-2 12:2:20
+     * @return String 格式化好的时间字符串，如:2012-03-20 12:02:20
+     */
+    public static String dateTimeFormat(String dateTime) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            if (EmptyUtils.isEmpty(dateTime)) {
+                return null;
+            }
+            String[] dateAndTime = dateTime.split(" ");
+            if (dateAndTime.length > 0) {
+                for (String str : dateAndTime) {
+                    if (str.indexOf("-") != -1) {
+                        String[] date = str.split("-");
+                        for (int i = 0; i < date.length; i++) {
+                            String str1 = date[i];
+                            sb.append(StringUtils.strFormat2(str1));
+                            if (i < date.length - 1) {
+                                sb.append("-");
+                            }
+                        }
+                    } else if (str.indexOf(":") != -1) {
+                        sb.append(" ");
+                        String[] date = str.split(":");
+                        for (int i = 0; i < date.length; i++) {
+                            String str1 = date[i];
+                            sb.append(StringUtils.strFormat2(str1));
+                            if (i < date.length - 1) {
+                                sb.append(":");
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return sb.toString();
+    }
 }

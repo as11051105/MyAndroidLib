@@ -250,7 +250,9 @@ public class ToastUtils {
      * @param duration 显示时长
      */
     private static void showToast(Context context, CharSequence text, int duration) {
-        if (isJumpWhenMore) cancelToast();
+        if (isJumpWhenMore) {
+            cancelToast();
+        }
         if (sToast == null) {
             sToast = Toast.makeText(context.getApplicationContext(), text, duration);
         } else {
@@ -304,4 +306,5 @@ public class ToastUtils {
             sToast = null;
         }
     }
+
 }

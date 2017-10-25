@@ -222,7 +222,7 @@ public class AnimationUtils {
      */
     private static void postAnimationMessage(final AnimationDrawable ani, final int what) {
         aniHandler.postDelayed(new Runnable() {
-
+            @Override
             public void run() {
                 Message msg = Message.obtain();
                 msg.what = what;

@@ -20,8 +20,7 @@ public class WeakRefHandler extends Handler {
 
     @Override
     public void handleMessage(Message msg) {
-        if ((mWeakContext.get() instanceof Activity) &&
-                ((Activity) mWeakContext.get()).isFinishing())
+        if ((mWeakContext.get() instanceof Activity) && ((Activity) mWeakContext.get()).isFinishing())
             return;
         if (mWeakContext == null) {
             return;

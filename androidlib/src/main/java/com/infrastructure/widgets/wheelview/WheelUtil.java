@@ -45,7 +45,7 @@ public class WheelUtil {
      * @param endYearOffset 结束的年与开始的年的偏移
      * @param initStart     轮子是否初始化默认时间为当前时间
      */
-    public static void initWheelDatePicker(final Context ctx,View mTimeView, final TextView mText, final WheelView mWheelViewY, final WheelView mWheelViewM,
+    public static void initWheelDatePicker(final Context ctx, View mTimeView, final TextView mText, final WheelView mWheelViewY, final WheelView mWheelViewM,
                                            final WheelView mWheelViewD,
                                            Button okBtn, Button cancelBtn, int defaultYear, int defaultMonth,
                                            int defaultDay, final int startYear, int endYearOffset, boolean initStart) {
@@ -66,7 +66,7 @@ public class WheelUtil {
             defaultDay = day;
         }
 
-        mText.setText(StringUtils.dateTimeFormat(defaultYear + "-" + defaultMonth + "-" + defaultDay));
+        mText.setText(TimeUtils.dateTimeFormat(defaultYear + "-" + defaultMonth + "-" + defaultDay));
         final List<String> list_big = Arrays.asList(months_big);
         final List<String> list_little = Arrays.asList(months_little);
 
@@ -108,7 +108,7 @@ public class WheelUtil {
 
         // 添加"年"监听
         OnWheelChangedListener wheelListener_year = new OnWheelChangedListener() {
-
+            @Override
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
                 int year_num = newValue + startYear;
                 int mDIndex = mWheelViewM.getCurrentItem();
@@ -118,10 +118,11 @@ public class WheelUtil {
                 } else if (list_little.contains(String.valueOf(mWheelViewM.getCurrentItem() + 1))) {
                     mWheelViewD.setAdapter(new NumericWheelAdapter(1, 30));
                 } else {
-                    if (TimeUtils.isLeapYear(year_num))
+                    if (TimeUtils.isLeapYear(year_num)) {
                         mWheelViewD.setAdapter(new NumericWheelAdapter(1, 29));
-                    else
+                    } else {
                         mWheelViewD.setAdapter(new NumericWheelAdapter(1, 28));
+                    }
                 }
                 mWheelViewM.setCurrentItem(mDIndex);
 
@@ -129,7 +130,7 @@ public class WheelUtil {
         };
         // 添加"月"监听
         OnWheelChangedListener wheelListener_month = new OnWheelChangedListener() {
-
+            @Override
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
                 int month_num = newValue + 1;
                 // 判断大小月及是否闰年,用来确定"日"的数据
@@ -139,10 +140,11 @@ public class WheelUtil {
                     mWheelViewD.setAdapter(new NumericWheelAdapter(1, 30));
                 } else {
                     int year_num = mWheelViewY.getCurrentItem() + startYear;
-                    if (TimeUtils.isLeapYear(year_num))
+                    if (TimeUtils.isLeapYear(year_num)) {
                         mWheelViewD.setAdapter(new NumericWheelAdapter(1, 29));
-                    else
+                    } else {
                         mWheelViewD.setAdapter(new NumericWheelAdapter(1, 28));
+                    }
                 }
                 mWheelViewD.setCurrentItem(0);
             }
@@ -164,7 +166,7 @@ public class WheelUtil {
                 int indexDay = mWheelViewD.getCurrentItem();
                 String day = mWheelViewD.getAdapter().getItem(indexDay);
 
-                mText.setText(StringUtils.dateTimeFormat(year + "-" + month + "-" + day));
+                mText.setText(TimeUtils.dateTimeFormat(year + "-" + month + "-" + day));
             }
 
         });
@@ -178,7 +180,7 @@ public class WheelUtil {
 
             });
         }
-        DialogUtils.showDialog(mTimeView, Gravity.BOTTOM,1.00);
+        DialogUtils.showDialog(mTimeView, Gravity.BOTTOM, 1.00);
     }
 
     /**
@@ -217,7 +219,7 @@ public class WheelUtil {
             defaultMinute = minute;
         }
 
-        String val = StringUtils.dateTimeFormat(defaultYear + "-" + defaultMonth + "-" + defaultDay + " " + defaultHour + ":" + defaultMinute + ":" + second);
+        String val = TimeUtils.dateTimeFormat(defaultYear + "-" + defaultMonth + "-" + defaultDay + " " + defaultHour + ":" + defaultMinute + ":" + second);
         mText.setText(val);
         // 添加大小月月份并将其转换为list,方便之后的判断
         String[] months_big = {"1", "3", "5", "7", "8", "10", "12"};
@@ -291,7 +293,7 @@ public class WheelUtil {
                 String dmStr = textDMDateList.get(index1);
                 Calendar calendar = Calendar.getInstance();
                 int second = calendar.get(Calendar.SECOND);
-                String val = StringUtils.dateTimeFormat(dmStr + " " + index2 + ":" + index3 + ":" + second);
+                String val = TimeUtils.dateTimeFormat(dmStr + " " + index2 + ":" + index3 + ":" + second);
                 mText.setText(val);
             }
 
@@ -358,7 +360,7 @@ public class WheelUtil {
                 DialogUtils.removeDialog(v.getContext());
                 int index2 = mWheelViewHH.getCurrentItem();
                 int index3 = mWheelViewMM.getCurrentItem();
-                String val = StringUtils.dateTimeFormat(index2 + ":" + index3);
+                String val = TimeUtils.dateTimeFormat(index2 + ":" + index3);
                 mText.setText(val);
             }
         });

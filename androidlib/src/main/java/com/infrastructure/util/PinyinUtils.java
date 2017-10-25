@@ -115,7 +115,9 @@ public class PinyinUtils {
      * @return 如果字符串长度是1返回的是对应的ascii码，否则返回-1
      */
     private static int oneCc2ASCII(String cc) {
-        if (cc.length() != 1) return -1;
+        if (cc.length() != 1){
+            return -1;
+        }
         int ascii = 0;
         try {
             byte[] bytes = cc.getBytes("GB2312");
@@ -142,7 +144,9 @@ public class PinyinUtils {
      */
     private static String oneCc2Pinyin(String cc) {
         int ascii = oneCc2ASCII(cc);
-        if (ascii == -1) return null;
+        if (ascii == -1) {
+            return null;
+        }
         String ret = null;
         if (0 <= ascii && ascii <= 127) {
             ret = String.valueOf((char) ascii);
@@ -164,11 +168,15 @@ public class PinyinUtils {
      * @return 拼音
      */
     public static String getPinyinFirstLetter(String ccs) {
-        if (ccs == null || ccs.trim().length() <= 0) return null;
+        if (ccs == null || ccs.trim().length() <= 0){
+            return null;
+        }
         String firstCc, py;
         firstCc = ccs.substring(0, 1);
         py = oneCc2Pinyin(firstCc);
-        if (py == null) return null;
+        if (py == null) {
+            return null;
+        }
         return py.substring(0, 1);
     }
 
@@ -184,7 +192,9 @@ public class PinyinUtils {
         for (int i = 0; i < ccs.length(); i++) {
             cc = ccs.substring(i, i + 1);
             py = oneCc2Pinyin(cc);
-            if (py == null) py = "?";
+            if (py == null) {
+                py = "?";
+            }
             sb.append(py);
         }
         return sb.toString();
@@ -203,7 +213,9 @@ public class PinyinUtils {
         for (int i = 0; i < ccs.length(); i++) {
             cc = ccs.substring(i, i + 1);
             py = oneCc2Pinyin(cc);
-            if (py == null) py = "?";
+            if (py == null) {
+                py = "?";
+            }
             sb.append(py).append(split);
         }
         return sb.toString();

@@ -1,5 +1,6 @@
 package com.infrastructure.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -8,7 +9,6 @@ import android.view.ViewGroup;
 
 /**
  * <pre>
- *     author: Blankj
  *     blog  : http://blankj.com
  *     time  : 2016/8/2
  *     desc  : 尺寸相关工具类
@@ -19,7 +19,30 @@ public class SizeUtils {
     private SizeUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
+    /******************** 存储相关常量 ********************/
+    /**
+     * Byte与Byte的倍数
+     */
+    public static final int BYTE = 1;
+    /**
+     * KB与Byte的倍数
+     */
+    public static final int KB   = 1024;
+    /**
+     * MB与Byte的倍数
+     */
+    public static final int MB   = 1048576;
+    /**
+     * GB与Byte的倍数
+     */
+    public static final int GB   = 1073741824;
 
+    public enum MemoryUnit {
+        BYTE,
+        KB,
+        MB,
+        GB
+    }
     /**
      * dp转px
      *
@@ -179,5 +202,87 @@ public class SizeUtils {
      */
     public static int getMeasuredHeight(View view) {
         return measureView(view)[1];
+    }
+
+    /**
+     * 字节数转以unit为单位的size
+     *
+     * @param byteNum 字节数
+     * @param unit    单位类型
+     *                <ul>
+     *                <li>{@link MemoryUnit#BYTE}: 字节</li>
+     *                <li>{@link MemoryUnit#KB}  : 千字节</li>
+     *                <li>{@link MemoryUnit#MB}  : 兆</li>
+     *                <li>{@link MemoryUnit#GB}  : GB</li>
+     *                </ul>
+     * @return 以unit为单位的size
+     */
+    public static double byte2Size(long byteNum, MemoryUnit unit) {
+        if (byteNum < 0) {
+            return -1;
+        }
+        switch (unit) {
+            default:
+            case BYTE:
+                return (double) byteNum / BYTE;
+            case KB:
+                return (double) byteNum / KB;
+            case MB:
+                return (double) byteNum / MB;
+            case GB:
+                return (double) byteNum / GB;
+        }
+    }
+
+    /**
+     * 以unit为单位的size转字节数
+     *
+     * @param size 大小
+     * @param unit 单位类型
+     *             <ul>
+     *             <li>{@link MemoryUnit#BYTE}: 字节</li>
+     *             <li>{@link MemoryUnit#KB}  : 千字节</li>
+     *             <li>{@link MemoryUnit#MB}  : 兆</li>
+     *             <li>{@link MemoryUnit#GB}  : GB</li>
+     *             </ul>
+     * @return 字节数
+     */
+    public static long size2Byte(long size, MemoryUnit unit) {
+        if (size < 0) {
+            return -1;
+        }
+        switch (unit) {
+            default:
+            case BYTE:
+                return size;
+            case KB:
+                return size * KB;
+            case MB:
+                return size * MB;
+            case GB:
+                return size * GB;
+        }
+    }
+
+    /**
+     * 字节数转合适内存大小
+     * <p>保留3位小数</p>
+     *
+     * @param byteNum 字节数
+     * @return 合适内存大小
+     */
+    @SuppressLint("DefaultLocale")
+    public static String byte2FitSize(long byteNum) {
+        if (byteNum < 0) {
+            return "shouldn't be less than zero!";
+        } else if (byteNum < KB) {
+            return String.format("%.3fB", (double) byteNum);
+        } else if (byteNum < MB) {
+            return String.format("%.3fKB", (double) byteNum / KB);
+        } else if (byteNum < GB) {
+            return String.format("%.3fMB", (double) byteNum / MB);
+        } else {
+            return String.format("%.3fGB", (double) byteNum / GB);
+        }
     }
 }

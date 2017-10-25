@@ -11,8 +11,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 类名: StrUtil.java
@@ -56,14 +54,18 @@ public class StringUtils {
      * @return {@code true}: 相等<br>{@code false}: 不相等
      */
     public static boolean equals(CharSequence a, CharSequence b) {
-        if (a == b) return true;
+        if (a == b) {
+            return true;
+        }
         int length;
         if (a != null && b != null && (length = a.length()) == b.length()) {
             if (a instanceof String && b instanceof String) {
                 return a.equals(b);
             } else {
                 for (int i = 0; i < length; i++) {
-                    if (a.charAt(i) != b.charAt(i)) return false;
+                    if (a.charAt(i) != b.charAt(i)) {
+                        return false;
+                    }
                 }
                 return true;
             }
@@ -109,7 +111,9 @@ public class StringUtils {
      * @return 首字母大写字符串
      */
     public static String upperFirstLetter(String s) {
-        if (isEmpty(s) || !Character.isLowerCase(s.charAt(0))) return s;
+        if (isEmpty(s) || !Character.isLowerCase(s.charAt(0))){
+            return s;
+        }
         return String.valueOf((char) (s.charAt(0) - 32)) + s.substring(1);
     }
 
@@ -134,7 +138,9 @@ public class StringUtils {
      */
     public static String reverse(String s) {
         int len = length(s);
-        if (len <= 1) return s;
+        if (len <= 1) {
+            return s;
+        }
         int mid = len >> 1;
         char[] chars = s.toCharArray();
         char c;
@@ -308,23 +314,6 @@ public class StringUtils {
         return currentIndex;
     }
 
-    /**
-     * 描述：手机号格式验证.
-     *
-     * @param str 指定的手机号码字符串
-     * @return 是否为手机号码格式:是为true，否则false
-     */
-    public static Boolean isMobileNo(String str) {
-        Boolean isMobileNo = false;
-        try {
-            Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
-            Matcher m = p.matcher(str);
-            isMobileNo = m.matches();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return isMobileNo;
-    }
 
     /**
      * 描述：是否只是字母和数字.
@@ -452,49 +441,7 @@ public class StringUtils {
         return sb.toString();
     }
 
-    /**
-     * 描述：标准化日期时间类型的数据，不足两位的补0.
-     *
-     * @param dateTime 预格式的时间字符串，如:2012-3-2 12:2:20
-     * @return String 格式化好的时间字符串，如:2012-03-20 12:02:20
-     */
-    public static String dateTimeFormat(String dateTime) {
-        StringBuilder sb = new StringBuilder();
-        try {
-            if (isEmpty(dateTime)) {
-                return null;
-            }
-            String[] dateAndTime = dateTime.split(" ");
-            if (dateAndTime.length > 0) {
-                for (String str : dateAndTime) {
-                    if (str.indexOf("-") != -1) {
-                        String[] date = str.split("-");
-                        for (int i = 0; i < date.length; i++) {
-                            String str1 = date[i];
-                            sb.append(strFormat2(str1));
-                            if (i < date.length - 1) {
-                                sb.append("-");
-                            }
-                        }
-                    } else if (str.indexOf(":") != -1) {
-                        sb.append(" ");
-                        String[] date = str.split(":");
-                        for (int i = 0; i < date.length; i++) {
-                            String str1 = date[i];
-                            sb.append(strFormat2(str1));
-                            if (i < date.length - 1) {
-                                sb.append(":");
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        return sb.toString();
-    }
+
 
     /**
      * 描述：不足2个字符的在前面补“0”.
@@ -635,14 +582,7 @@ public class StringUtils {
         return Long.valueOf(items[0]) << 24 | Long.valueOf(items[1]) << 16 | Long.valueOf(items[2]) << 8 | Long.valueOf(items[3]);
     }
 
-    /**
-     * The main method.
-     *
-     * @param args the arguments
-     */
-    public static void main(String[] args) {
-        System.out.println(dateTimeFormat("2012-3-2 12:2:20"));
-    }
+
 
     /**
      * 功能:Get XML String of utf-8

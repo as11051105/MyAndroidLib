@@ -15,36 +15,15 @@ import com.bumptech.glide.request.RequestOptions;
 
 /**
  * Description : 图片加载工具类 使用glide框架封装
- * http://www.jianshu.com/p/ab97d6bda8ec
  */
 public class ImageLoaderUtils {
 
-
     /**
      * 加载原图片
      *
      * @param context
      * @param url
-     * @param target
-     */
-    public static void loadImg(Context context, String url, ImageView target) {
-        Glide.with(context)
-                .load(url)
-                .apply(new RequestOptions()
-                        .format(DecodeFormat.PREFER_ARGB_8888)
-                        .centerCrop()//图片显示类型
-                        .priority(Priority.HIGH)//设置请求优先级
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)//全部缓存
-                )
-                .transition(new DrawableTransitionOptions().crossFade(1000))//渐显效果
-                .into(target);
-    }
-
-    /**
-     * 加载原图片
-     *
-     * @param context
-     * @param url
+     * @param id
      * @param target
      */
     public static void loadImg(Context context, String url, int id, ImageView target) {
@@ -62,34 +41,13 @@ public class ImageLoaderUtils {
                 .into(target);
     }
 
-    /**
-     * 加载原图片
-     *
-     * @param context
-     * @param url
-     * @param target
-     */
-    public static void loadImgByMockWFile(Context context, String url, int id, ImageView target) {
-        Glide.with(context)
-                .load(url)
-                .apply(new RequestOptions()
-                        .format(DecodeFormat.PREFER_ARGB_8888)
-                        .fitCenter()//图片显示类型
-                        .placeholder(id)//加载中图片
-                        .error(id)//加载错误的图片
-                        .priority(Priority.HIGH)//设置请求优先级
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)//全部缓存
-                )
-                .transition(new DrawableTransitionOptions().crossFade(1000))//渐显效果
-                .into(target);
-    }
-
 
     /**
-     * 加载原图片
+     * 加载bitmap图片
      *
      * @param context
      * @param bitmap
+     * @param id
      * @param target
      */
     public static void loadImg(Context context, Bitmap bitmap, int id, ImageView target) {
@@ -109,10 +67,11 @@ public class ImageLoaderUtils {
     }
 
     /**
-     * 加载原图片
+     * 加载byte图片
      *
      * @param context
      * @param bytes
+     * @param id
      * @param target
      */
     public static void loadImg(Context context, byte[] bytes, int id, ImageView target) {
@@ -131,22 +90,24 @@ public class ImageLoaderUtils {
     }
 
     /**
-     * 加载圆形头像
+     * 加载git图片
      *
-     * @param context 如果是activity glide会与其生命周期关联,在onStop()中取消加载图片,如果
-     *                想要始终加载图片则需要传入Application实例
+     * @param context
      * @param url
+     * @param id
      * @param target
      */
-    public static void loadRoundImg(Context context, String url, ImageView target) {
+    public static void loadGitImg(Context context, String url, int id, ImageView target) {
         Glide.with(context)
+                .asGif()
                 .load(url)
                 .apply(new RequestOptions()
                         .format(DecodeFormat.PREFER_ARGB_8888)
                         .centerCrop()//图片显示类型
+                        .placeholder(id)//加载中图片
+                        .error(id)//加载错误的图片
                         .priority(Priority.HIGH)//设置请求优先级
                         .diskCacheStrategy(DiskCacheStrategy.ALL)//全部缓存
-                        .circleCrop()//设置成圆形头像<这个是V4.0新增的>
                 )
                 .transition(new DrawableTransitionOptions().crossFade(1000))//渐显效果
                 .into(target);
@@ -158,6 +119,7 @@ public class ImageLoaderUtils {
      * @param context 如果是activity glide会与其生命周期关联,在onStop()中取消加载图片,如果
      *                想要始终加载图片则需要传入Application实例
      * @param url
+     * @param id
      * @param target
      */
     public static void loadRoundImg(Context context, String url, int id, ImageView target) {
@@ -182,6 +144,7 @@ public class ImageLoaderUtils {
      * @param context 如果是activity glide会与其生命周期关联,在onStop()中取消加载图片,如果
      *                想要始终加载图片则需要传入Application实例
      * @param url
+     * @param id
      * @param target
      */
     public static void loadRoundedCornersImg(Context context, String url, int id, ImageView target) {

@@ -1,7 +1,5 @@
 package com.infrastructure.util;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,13 +15,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.text.Format;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * <pre>
- *     author: Blankj
  *     blog  : http://blankj.com
  *     time  : 2016/8/13
  *     desc  : 转换相关工具类
@@ -46,9 +40,13 @@ public class ConvertUtils {
      * @return 16进制大写字符串
      */
     public static String bytes2HexString(byte[] bytes) {
-        if (bytes == null) return null;
+        if (bytes == null) {
+            return null;
+        }
         int len = bytes.length;
-        if (len <= 0) return null;
+        if (len <= 0) {
+            return null;
+        }
         char[] ret = new char[len << 1];
         for (int i = 0, j = 0; i < len; i++) {
             ret[j++] = hexDigits[bytes[i] >>> 4 & 0x0f];
@@ -66,7 +64,9 @@ public class ConvertUtils {
      * @return 字节数组
      */
     public static byte[] hexString2Bytes(String hexString) {
-        if (StringUtils.isSpace(hexString)) return null;
+        if (StringUtils.isSpace(hexString)){
+            return null;
+        }
         int len = hexString.length();
         if (len % 2 != 0) {
             hexString = "0" + hexString;
@@ -103,7 +103,9 @@ public class ConvertUtils {
      * @return 字节数组
      */
     public static byte[] chars2Bytes(char[] chars) {
-        if (chars == null || chars.length <= 0) return null;
+        if (chars == null || chars.length <= 0) {
+            return null;
+        }
         int len = chars.length;
         byte[] bytes = new byte[len];
         for (int i = 0; i < len; i++) {
@@ -119,9 +121,13 @@ public class ConvertUtils {
      * @return 字符数组
      */
     public static char[] bytes2Chars(byte[] bytes) {
-        if (bytes == null) return null;
+        if (bytes == null) {
+            return null;
+        }
         int len = bytes.length;
-        if (len <= 0) return null;
+        if (len <= 0){
+            return null;
+        }
         char[] chars = new char[len];
         for (int i = 0; i < len; i++) {
             chars[i] = (char) (bytes[i] & 0xff);
@@ -129,106 +135,9 @@ public class ConvertUtils {
         return chars;
     }
 
-    /**
-     * 字节数转以unit为单位的size
-     *
-     * @param byteNum 字节数
-     * @param unit    单位类型
-     *                <ul>
-     *                <li>{@link ConstUtils.MemoryUnit#BYTE}: 字节</li>
-     *                <li>{@link ConstUtils.MemoryUnit#KB}  : 千字节</li>
-     *                <li>{@link ConstUtils.MemoryUnit#MB}  : 兆</li>
-     *                <li>{@link ConstUtils.MemoryUnit#GB}  : GB</li>
-     *                </ul>
-     * @return 以unit为单位的size
-     */
-    public static double byte2Size(long byteNum, ConstUtils.MemoryUnit unit) {
-        if (byteNum < 0) return -1;
-        switch (unit) {
-            default:
-            case BYTE:
-                return (double) byteNum / ConstUtils.BYTE;
-            case KB:
-                return (double) byteNum / ConstUtils.KB;
-            case MB:
-                return (double) byteNum / ConstUtils.MB;
-            case GB:
-                return (double) byteNum / ConstUtils.GB;
-        }
-    }
 
-    /**
-     * 以unit为单位的size转字节数
-     *
-     * @param size 大小
-     * @param unit 单位类型
-     *             <ul>
-     *             <li>{@link ConstUtils.MemoryUnit#BYTE}: 字节</li>
-     *             <li>{@link ConstUtils.MemoryUnit#KB}  : 千字节</li>
-     *             <li>{@link ConstUtils.MemoryUnit#MB}  : 兆</li>
-     *             <li>{@link ConstUtils.MemoryUnit#GB}  : GB</li>
-     *             </ul>
-     * @return 字节数
-     */
-    public static long size2Byte(long size, ConstUtils.MemoryUnit unit) {
-        if (size < 0) return -1;
-        switch (unit) {
-            default:
-            case BYTE:
-                return size;
-            case KB:
-                return size * ConstUtils.KB;
-            case MB:
-                return size * ConstUtils.MB;
-            case GB:
-                return size * ConstUtils.GB;
-        }
-    }
 
-    /**
-     * 字节数转合适内存大小
-     * <p>保留3位小数</p>
-     *
-     * @param byteNum 字节数
-     * @return 合适内存大小
-     */
-    @SuppressLint("DefaultLocale")
-    public static String byte2FitSize(long byteNum) {
-        if (byteNum < 0) {
-            return "shouldn't be less than zero!";
-        } else if (byteNum < ConstUtils.KB) {
-            return String.format("%.3fB", (double) byteNum);
-        } else if (byteNum < ConstUtils.MB) {
-            return String.format("%.3fKB", (double) byteNum / ConstUtils.KB);
-        } else if (byteNum < ConstUtils.GB) {
-            return String.format("%.3fMB", (double) byteNum / ConstUtils.MB);
-        } else {
-            return String.format("%.3fGB", (double) byteNum / ConstUtils.GB);
-        }
-    }
 
-    /**
-     * 毫秒时间戳转合适时间长度
-     *
-     * @param millis 毫秒时间戳
-     * @return 合适时间长度
-     */
-    @SuppressLint("DefaultLocale")
-    public static String millis2FitTimeSpan(long millis) {
-        if (millis < 0) {
-            return "shouldn't be less than zero!";
-        } else if (millis < ConstUtils.SEC) {
-            return String.format("%d毫秒", millis);
-        } else if (millis < ConstUtils.MIN) {
-            return String.format("%d秒", millis / ConstUtils.SEC);
-        } else if (millis < ConstUtils.HOUR) {
-            return String.format("%d分", millis / ConstUtils.MIN);
-        } else if (millis < ConstUtils.DAY) {
-            return String.format("%d小时", millis / ConstUtils.HOUR);
-        } else {
-            return String.format("%d天", millis / ConstUtils.DAY);
-        }
-    }
 
     /**
      * bytes转bits
@@ -279,12 +188,14 @@ public class ConvertUtils {
      * @return outputStream子类
      */
     public static ByteArrayOutputStream input2OutputStream(InputStream is) {
-        if (is == null) return null;
+        if (is == null) {
+            return null;
+        }
         try {
             ByteArrayOutputStream os = new ByteArrayOutputStream();
-            byte[] b = new byte[ConstUtils.KB];
+            byte[] b = new byte[SizeUtils.KB];
             int len;
-            while ((len = is.read(b, 0, ConstUtils.KB)) != -1) {
+            while ((len = is.read(b, 0, SizeUtils.KB)) != -1) {
                 os.write(b, 0, len);
             }
             return os;
@@ -303,7 +214,9 @@ public class ConvertUtils {
      * @return inputStream子类
      */
     public ByteArrayInputStream output2InputStream(OutputStream out) {
-        if (out == null) return null;
+        if (out == null) {
+            return null;
+        }
         return new ByteArrayInputStream(((ByteArrayOutputStream) out).toByteArray());
     }
 
@@ -314,7 +227,9 @@ public class ConvertUtils {
      * @return 字节数组
      */
     public static byte[] inputStream2Bytes(InputStream is) {
-        if (is == null) return null;
+        if (is == null) {
+            return null;
+        }
         return input2OutputStream(is).toByteArray();
     }
 
@@ -325,7 +240,9 @@ public class ConvertUtils {
      * @return 输入流
      */
     public static InputStream bytes2InputStream(byte[] bytes) {
-        if (bytes == null || bytes.length <= 0) return null;
+        if (bytes == null || bytes.length <= 0) {
+            return null;
+        }
         return new ByteArrayInputStream(bytes);
     }
 
@@ -336,7 +253,9 @@ public class ConvertUtils {
      * @return 字节数组
      */
     public static byte[] outputStream2Bytes(OutputStream out) {
-        if (out == null) return null;
+        if (out == null) {
+            return null;
+        }
         return ((ByteArrayOutputStream) out).toByteArray();
     }
 
@@ -347,7 +266,9 @@ public class ConvertUtils {
      * @return 字节数组
      */
     public static OutputStream bytes2OutputStream(byte[] bytes) {
-        if (bytes == null || bytes.length <= 0) return null;
+        if (bytes == null || bytes.length <= 0) {
+            return null;
+        }
         ByteArrayOutputStream os = null;
         try {
             os = new ByteArrayOutputStream();
@@ -369,7 +290,9 @@ public class ConvertUtils {
      * @return 字符串
      */
     public static String inputStream2String(InputStream is, String charsetName) {
-        if (is == null || StringUtils.isSpace(charsetName)) return null;
+        if (is == null || StringUtils.isSpace(charsetName)) {
+            return null;
+        }
         try {
             return new String(inputStream2Bytes(is), charsetName);
         } catch (UnsupportedEncodingException e) {
@@ -386,7 +309,9 @@ public class ConvertUtils {
      * @return 输入流
      */
     public static InputStream string2InputStream(String string, String charsetName) {
-        if (string == null || StringUtils.isSpace(charsetName)) return null;
+        if (string == null || StringUtils.isSpace(charsetName)) {
+            return null;
+        }
         try {
             return new ByteArrayInputStream(string.getBytes(charsetName));
         } catch (UnsupportedEncodingException e) {
@@ -403,7 +328,9 @@ public class ConvertUtils {
      * @return 字符串
      */
     public static String outputStream2String(OutputStream out, String charsetName) {
-        if (out == null || StringUtils.isSpace(charsetName)) return null;
+        if (out == null || StringUtils.isSpace(charsetName)) {
+            return null;
+        }
         try {
             return new String(outputStream2Bytes(out), charsetName);
         } catch (UnsupportedEncodingException e) {
@@ -420,7 +347,9 @@ public class ConvertUtils {
      * @return 输入流
      */
     public static OutputStream string2OutputStream(String string, String charsetName) {
-        if (string == null || StringUtils.isSpace(charsetName)) return null;
+        if (string == null || StringUtils.isSpace(charsetName)) {
+            return null;
+        }
         try {
             return bytes2OutputStream(string.getBytes(charsetName));
         } catch (UnsupportedEncodingException e) {
@@ -437,7 +366,9 @@ public class ConvertUtils {
      * @return 字节数组
      */
     public static byte[] bitmap2Bytes(Bitmap bitmap, Bitmap.CompressFormat format) {
-        if (bitmap == null) return null;
+        if (bitmap == null) {
+            return null;
+        }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(format, 100, baos);
         return baos.toByteArray();
@@ -503,7 +434,9 @@ public class ConvertUtils {
      * @return bitmap
      */
     public static Bitmap view2Bitmap(View view) {
-        if (view == null) return null;
+        if (view == null) {
+            return null;
+        }
         Bitmap ret = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(ret);
         Drawable bgDrawable = view.getBackground();
@@ -514,53 +447,5 @@ public class ConvertUtils {
         }
         view.draw(canvas);
         return ret;
-    }
-
-    /**
-     * dp转px
-     *
-     * @param context 上下文
-     * @param dpValue dp值
-     * @return px值
-     */
-    public static int dp2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
-    }
-
-    /**
-     * px转dp
-     *
-     * @param context 上下文
-     * @param pxValue px值
-     * @return dp值
-     */
-    public static int px2dp(Context context, float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
-    }
-
-    /**
-     * sp转px
-     *
-     * @param context 上下文
-     * @param spValue sp值
-     * @return px值
-     */
-    public static int sp2px(Context context, float spValue) {
-        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * fontScale + 0.5f);
-    }
-
-    /**
-     * px转sp
-     *
-     * @param context 上下文
-     * @param pxValue px值
-     * @return sp值
-     */
-    public static int px2sp(Context context, float pxValue) {
-        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
-        return (int) (pxValue / fontScale + 0.5f);
     }
 }

@@ -78,7 +78,7 @@ dependencies {
 //    desc = 'This is a androidlib'
 //    website = 'https://github.com/as11051105/MyAndroidLib'
 //}
-
+// gradlew build  gradlew bintrayUpload
 //gradlew clean build bintrayUpload -PbintrayUser=as1105 -PbintrayKey=ecbed013f61fc4f2b54837fd64b4f038a02a9a06 -PdryRun=false
 
 apply from: "bintrayUpload.gradle"

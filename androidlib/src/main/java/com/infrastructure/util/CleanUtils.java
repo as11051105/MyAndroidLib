@@ -1,13 +1,9 @@
 package com.infrastructure.util;
 
-import android.app.ActivityManager;
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * <pre>
@@ -55,7 +51,15 @@ public class CleanUtils {
     public static boolean cleanInternalDbs(Context context) {
         return FileUtils.deleteFilesInDir(context.getFilesDir().getParent() + File.separator + "databases");
     }
-
+    /**
+     * 按名字清除本应用数据库
+     *
+     * @param context
+     * @param dbName
+     */
+    public static void cleanDatabaseByName(Context context, String dbName) {
+        context.deleteDatabase(dbName);
+    }
     /**
      * 根据名称清除数据库
      * <p>/data/data/com.xxx.xxx/databases/dbName</p>
@@ -109,4 +113,57 @@ public class CleanUtils {
     public static boolean cleanCustomCache(File dir) {
         return FileUtils.deleteFilesInDir(dir);
     }
+
+
+    /**
+     * 清除本应用所有数据库(/data/data/com.xxx.xxx/databases)
+     *
+     * @param context
+     */
+    @SuppressLint("SdCardPath")
+    public static boolean cleanDatabases(Context context) {
+        return FileUtils.deleteFilesInDir(new File("/data/data/" + context.getPackageName() + "/databases"));
+    }
+
+    /**
+     * * 清除本应用SharedPreference(/data/data/com.xxx.xxx/shared_prefs)
+     *
+     * @param context
+     */
+    @SuppressLint("SdCardPath")
+    public static boolean cleanSharedPreference(Context context) {
+        return FileUtils.deleteFilesInDir(new File("/data/data/"
+                + context.getPackageName() + "/shared_prefs"));
+    }
+
+
+
+    /**
+     * 清除/data/data/com.xxx.xxx/files下的内容
+     *
+     * @param context
+     */
+    public static boolean cleanFiles(Context context) {
+        return FileUtils.deleteFilesInDir (context.getFilesDir());
+    }
+
+
+    /**
+     * 清除本应用所有的数据
+     *
+     * @param context
+     * @param filepath
+     */
+    public static void cleanApplicationData(Context context, String... filepath) {
+        cleanInternalCache(context);
+        cleanExternalCache(context);
+        cleanDatabases(context);
+        cleanSharedPreference(context);
+        cleanFiles(context);
+        for (String filePath : filepath) {
+            cleanCustomCache(filePath);
+        }
+    }
+
+
 }

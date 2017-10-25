@@ -1,4 +1,4 @@
-package com.infrastructure.widgets.sharedPreference;
+package com.infrastructure.util;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -8,8 +8,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
-
-import com.infrastructure.util.EncryptUtils;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,10 +19,10 @@ import java.util.Set;
  * Created by Max on 2016/11/23.
  */
 
-public class SecuritySharedPreference implements SharedPreferences {
+public class SPreferenceSecurity implements SharedPreferences {
 
     private SharedPreferences mSharedPreferences;
-    private static final String TAG = SecuritySharedPreference.class.getName();
+    private static final String TAG = SPreferenceSecurity.class.getName();
     private Context mContext;
 
     /**
@@ -34,7 +32,7 @@ public class SecuritySharedPreference implements SharedPreferences {
      * @param name    file name
      * @param mode    context mode
      */
-    public SecuritySharedPreference(Context context, String name, int mode) {
+    public SPreferenceSecurity(Context context, String name, int mode) {
         mContext = context;
         if (TextUtils.isEmpty(name)) {
             mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);

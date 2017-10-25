@@ -20,7 +20,6 @@ import java.util.Set;
 
 /**
  * <pre>
- *     author: Blankj
  *     blog  : http://blankj.com
  *     time  : 2016/10/18
  *     desc  : 进程相关工具类
@@ -70,7 +69,9 @@ public class ProcessUtils {
                     long endTime = System.currentTimeMillis();
                     long beginTime = endTime - 86400000 * 7;
                     List<UsageStats> usageStatses = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, beginTime, endTime);
-                    if (usageStatses == null || usageStatses.isEmpty()) return null;
+                    if (usageStatses == null || usageStatses.isEmpty()) {
+                        return null;
+                    }
                     UsageStats recentStats = null;
                     for (UsageStats usageStats : usageStatses) {
                         if (recentStats == null || usageStats.getLastTimeUsed() > recentStats.getLastTimeUsed()) {
@@ -140,17 +141,23 @@ public class ProcessUtils {
      * @return {@code true}: 杀死成功<br>{@code false}: 杀死失败
      */
     public static boolean killBackgroundProcesses(Context context, String packageName) {
-        if (StringUtils.isSpace(packageName)) return false;
+        if (StringUtils.isSpace(packageName)) {
+            return false;
+        }
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> infos = am.getRunningAppProcesses();
-        if (infos == null || infos.size() == 0) return true;
+        if (infos == null || infos.size() == 0) {
+            return true;
+        }
         for (ActivityManager.RunningAppProcessInfo info : infos) {
             if (Arrays.asList(info.pkgList).contains(packageName)) {
                 am.killBackgroundProcesses(packageName);
             }
         }
         infos = am.getRunningAppProcesses();
-        if (infos == null || infos.size() == 0) return true;
+        if (infos == null || infos.size() == 0) {
+            return true;
+        }
         for (ActivityManager.RunningAppProcessInfo info : infos) {
             if (Arrays.asList(info.pkgList).contains(packageName)) {
                 return false;

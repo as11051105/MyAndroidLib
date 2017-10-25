@@ -29,7 +29,7 @@ public class IdcardUtils {
      * @return 有效：返回"" 无效：返回String信息
      */
 
-    public static String IDCardValidate(String IDStr) {
+    public static String validateIDCard(String IDStr) {
         String errorInfo = "";// 记录错误信息
         String[] ValCodeArr = {"1", "0", "x", "9", "8", "7", "6", "5", "4", "3", "2"};
         String[] Wi = {"7", "9", "10", "5", "8", "4", "2", "1", "6", "3", "7", "9", "10", "5", "8", "4", "2"};
