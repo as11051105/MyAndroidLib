@@ -1,4 +1,4 @@
-package com.infrastructure.imageloader;
+package com.infrastructure.imageloader.progress;
 
 import android.content.Context;
 import android.os.Environment;

@@ -6,7 +6,7 @@ def gitUrl = 'https://github.com/as11051105/MyAndroidLib.git'   // Git仓库的u
 
 group = "com.zxy"// 唯一包名，比如compile 'com.zxy:androidlib:1.0.0'中的com.zxy就是这里配置的
 //libName = "androidlib"//发布到JCenter上的项目名字，必须填写,，比如compile 'com.zxy:androidlib:1.0.0'中的androidlib就是这里配置的
-version = "1.0.1"// 版本号，下次更新是只需要更改版本号即可
+version = "1.0.2"// 版本号，下次更新是只需要更改版本号即可
 /**  上面配置后上传至jcenter后的编译路径是这样的： compile 'cn.zxy:androidlib:1.0.0'  **/
 
 
